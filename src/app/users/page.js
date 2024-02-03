@@ -1,13 +1,20 @@
+"use client"
 import { SvgIcon } from "@mui/material";
 import axios from "axios";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
+const MySwal = withReactContent(Swal);
 
-export default async function user() {
-   // Fetch data from the API
-   const response = await axios.get("https://tasks.vitasoftsolutions.com/userdata/");
-   const users = response.data
-//   console.log(users)
+export default function user() {
+  const [users, setusers] = useState();
+useEffect(() => { 
+  const response = fetch("https://tasks.vitasoftsolutions.com/userdata/").then(res => res.json()).then(data=> setusers(data))
+        // setusers(response.data)
+ },[users])
 
   const setings = <SvgIcon>
   <svg
@@ -24,6 +31,31 @@ export default async function user() {
     />
   </svg>
 </SvgIcon>
+
+const handleDelete = (id) => { 
+ 
+  MySwal.fire({
+    title: 'Are you sure?',
+    text: 'You won\'t be able to revert this!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Here you can handle the deletion logic
+      const respons = axios.delete(`https://tasks.vitasoftsolutions.com/userdata/${id}/`)
+    
+      MySwal.fire(
+        'Deleted!',
+        'Your data has been deleted.',
+        'success'
+      );
+    }
+  });
+ }
+
 
   return (
     <div className=" w-[100vw] h-[100vh]">
@@ -64,8 +96,8 @@ export default async function user() {
                 <td>{user.joining_date}</td>
                 <th>
                 <div className=" flex items-center">
-                    <button className=" btn btn-xs">{setings}</button>
-                    <button className="btn btn-xs btn-warning "><MdDelete /></button>
+                    <button className=" btn btn-xs"><Link href={`/edit/${user.id}`}>{setings}</Link></button>
+                    <button onClick={()=>handleDelete(user.id)} className="btn btn-xs btn-warning "><MdDelete /></button>
                 </div>
                 </th>
               </tr>
