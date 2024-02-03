@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Box, TextField, Typography } from "@mui/material";
 import bg from "../../../public/book-bg.png";
+import Swal from 'sweetalert2';
+
 
 const Form = () => {
   const [image, setImage] = useState(null);
@@ -12,18 +14,18 @@ const Form = () => {
   const handleImageUpload = async (e) => {
     e.preventDefault();
 
-    const file = e.target.image.files[0];
+    // const file = e.target.image.files[0];
 
-    const formData = new FormData();
-    formData.append("image", file);
+    // const formData = new FormData();
+    // formData.append("image", file);
 
     try {
-      const response = await axios.post(
-        "https://api.imgbb.com/1/upload?key=71916831da1892097125a1c42c958554",
-        formData
-      );
+      // const response = await axios.post(
+      //   "https://api.imgbb.com/1/upload?key=71916831da1892097125a1c42c958554",
+      //   formData
+      // );
 
-      const profileImage = response.data.data.display_url;
+      // const profileImage = response.data.data.display_url;
       const name = e.target.name.value;
       const phone = e.target.phone.value;
       const birthdate = e.target.birthdate.value;
@@ -40,7 +42,16 @@ const Form = () => {
       };
       console.log(user)
       const res = await axios.post("https://tasks.vitasoftsolutions.com/userdata/",user)
-      console.log(res.data)
+      if(res.data){
+        Swal.fire({
+        title: 'Created successfully!',
+        text: 'Created new uer',
+        icon: 'success',
+        confirmButtonText: 'Cool!'
+      });
+      e.target.reset()
+      // router('/users')
+    }
     } catch (error) {
       console.error("Error uploading image:", error.message);
     }
