@@ -14,7 +14,7 @@ const page = ({params}) => {
      },[])
     const handleUpdate = async (e) => {
         e.preventDefault();
-        try {
+    
       
           const name = e.target.name.value;
           const phone = e.target.phone.value;
@@ -30,15 +30,12 @@ const page = ({params}) => {
             // profile_picture: profileImage
     
           };
+          // console.log(updatedUser)
+          // console.log("id", id)
         //   console.log(user)
-          const res = await axios.put(`https://tasks.vitasoftsolutions.com/userdata/${id}/`, updatedUser, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });          console.log(res.data)
-        } catch (error) {
-          console.error("Error uploading image:", error.message);
-        }
+          const res = await axios.put(`https://tasks.vitasoftsolutions.com/userdata/${id}/`, updatedUser)          
+          console.log(res.data)
+       
       };
     return (
         <Box
