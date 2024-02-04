@@ -1,4 +1,4 @@
-import User from '@/common/common/User';
+import User from '../../common/user/User.jsx';
 import React from 'react';
 
 const page = async () => {
