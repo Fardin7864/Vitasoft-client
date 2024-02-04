@@ -37,7 +37,7 @@ const Form = () => {
         description: description,
         birthdate: birthdate,
         active_status: status,
-        // profile_picture: profileImage
+        profile_picture: e.target.image.files[0]
 
       };
       console.log(user)
